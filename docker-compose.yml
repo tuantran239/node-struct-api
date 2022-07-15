@@ -1,0 +1,16 @@
+version: '3'
+services:
+  redis-server:
+    image: 'redis'
+    restart: always
+    ports:
+      - '6379:6379'
+  server:
+    build:
+      context: .
+      dockerfile: dockerfile.dev
+    volumes:
+      - .:/usr/node-admin/app
+      - /usr/node-admin/app/node_modules
+    ports:
+      - '5000:5000'  
