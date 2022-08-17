@@ -1,14 +1,14 @@
 import { Response } from 'express'
 
 export type Error = {
-  msg: string
-  param: string
-  location?: string
+  message: string
+  field: string
 }
 
-export type HttpResonseError = (res: Response, error?: Error | Error[]) => any
+export type HttpResonseError = (res: Response, error: Error[]) => any
 
-export type ErrorDataReturn = {
+export type ErrorResponse = {
   name: string
-  error: Error | Error[]
+  error: Error[]
+  status: number
 }

@@ -3,7 +3,7 @@ import {
   minLength,
   required,
   valid
-} from '../utils/error/validator-error-message'
+} from '../error/validator-error-message'
 
 export const createUserSchema = checkSchema({
   name: {

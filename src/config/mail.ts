@@ -1,6 +1,6 @@
 import server from './server'
 
-require('dotenv').config()
+import 'dotenv/config'
 
 const user = process.env.EMAIL_USER
 
@@ -12,15 +12,15 @@ const method = {
 }
 
 const link = {
-  register: `${server.domain}/${server.version}/${server.routes.auth}/verify`,
-  resetPassword: `${server.domain}/${server.version}/${server.routes.auth}/reset-password`
+  register: `${server.domain}${server.routes.auth}/verify`,
+  resetPassword: `${server.domain}${server.routes.auth}/reset-password`
 }
 
-const mail = {
+const mailConf = {
   user,
   password,
   method,
   link
 }
 
-export default mail
+export default mailConf

@@ -1,17 +1,9 @@
-export enum UserRole {
+export enum AuthType {
+  EMAIL = 'email',
+  GOOGLE = 'google'
+}
+
+export enum Role {
   USER = 'user',
   ADMIN = 'admin'
-}
-
-export enum MethodPermission {
-  CREATE = 'create',
-  READ = 'read',
-  DELETE = 'delete',
-  UPDATE = 'update'
-}
-
-export enum ObjectPermission {
-  USER = 'user',
-  POST = 'post',
-  ROLE = 'role'
 }

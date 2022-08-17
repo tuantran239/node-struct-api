@@ -1,19 +1,22 @@
-require('dotenv').config()
+import 'dotenv/config'
 
 const domain = process.env.DOMAIN
 
 const version = process.env.VERSION
 
+const commonRoute = `/api/${version}`
+
 const routes = {
-  auth: '/api/auth',
-  role: '/api/role',
-  user: '/api/auth'
+  auth: `${commonRoute}/auth`,
+  authSocial: 'api',
+  user: `${commonRoute}/user`
 }
 
-const server = {
+const serverConf = {
   domain,
   version,
+  commonRoute,
   routes
 }
 
-export default server
+export default serverConf

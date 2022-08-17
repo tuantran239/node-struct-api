@@ -1,7 +1,7 @@
-require('dotenv').config()
+import 'dotenv/config'
 
 const mongodbUrl = process.env.MONGODB_URL
 
-const db = { mongodbUrl }
+const dbConf = { mongodbUrl }
 
-export default db
+export default dbConf

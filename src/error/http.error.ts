@@ -1,29 +1,34 @@
 import { Response } from 'express'
 import {
   Error,
-  ErrorDataReturn,
+  ErrorResponse,
   HttpResonseError
-} from '../../types/error.type'
+} from '../types/error.type'
 
-import { httpResponse } from '../httpResponse'
+import { httpResponse } from '../utils/httpResponse'
 
 const errorRes = (
   res: Response,
   name: string,
   status: number,
-  error?: Error | Error[]
+  error: Error[]
 ) => {
-  const errorDefault: Error = { msg: name, param: 'server' }
-
-  const data: ErrorDataReturn = {
+  const data: ErrorResponse = {
     name,
-    error: error || errorDefault
+    error,
+    status
   }
-
   return httpResponse(res, status, data)
 }
 
-export const ErrorResponse = errorRes
+export const generateError = (message: string, field: string) => {
+  const error: Error[] = [{ message, field }]
+  return error
+}
+
+export const CommonErrorResponse = (res: Response, data: ErrorResponse) => {
+  return httpResponse(res, data.status, data)
+}
 
 export const NotFoundResponse: HttpResonseError = (res, error) => {
   return errorRes(res, 'Not found', 404, error)

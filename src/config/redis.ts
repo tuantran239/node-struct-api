@@ -1,9 +1,12 @@
-require('dotenv').config()
+import 'dotenv/config'
 
-const redisUrl = process.env.REDIS_URL
+const redisPort = process.env.REDIS_PORT
 
-const redis = {
-  redisUrl
+const redisHost = process.env.REDIS_HOST
+
+const redisConf = {
+  redisPort,
+  redisHost
 }
 
-export default redis
+export default redisConf

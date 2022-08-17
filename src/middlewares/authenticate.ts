@@ -1,11 +1,10 @@
 import { NextFunction, Request, Response } from 'express'
 import { getUserExist } from '../services/user.service'
 import {
+  generateError,
   InternalServerErrorResponse,
   UnauthorizedResponse
-} from '../utils/error/http.error'
-
-import { UserRole } from '../types/user.type'
+} from '../error/http.error'
 
 export const autheticate = async (
   req: Request,
@@ -14,29 +13,22 @@ export const autheticate = async (
 ) => {
   const userId = res.locals.user
   if (!userId) {
-    return UnauthorizedResponse(res, { msg: 'unauthorized', param: 'user' })
+    return UnauthorizedResponse(res, generateError('unauthorized', 'user'))
   }
   const { data: user, error } = await getUserExist(
     false,
     { _id: userId },
-    '-password',
-    { populate: 'role' }
+    '-password -token'
   )
   if (error) {
     return InternalServerErrorResponse(res, error.error)
   }
+  if (user && !user.active) {
+    return UnauthorizedResponse(res, generateError(
+      'account not active',
+      'user'
+    ))
+  }
   res.locals.user = user
   next()
 }
-
-export const authRole =
-  (roles: UserRole[]) => (req: Request, res: Response, next: NextFunction) => {
-    const user = res.locals.user
-    if (!roles.includes(user.role.name)) {
-      return UnauthorizedResponse(res, {
-        msg: 'role not access',
-        param: 'user'
-      })
-    }
-    next()
-  }

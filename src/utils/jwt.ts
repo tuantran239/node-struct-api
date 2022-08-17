@@ -1,15 +1,15 @@
 import { sign, verify, SignOptions } from 'jsonwebtoken'
-import jwt from '../config/jwt'
+import jwtConf from '../config/jwt'
 
 export const signJWT = (object: Object, options?: SignOptions) => {
-  return sign({ decode: object }, jwt.jwtSecect as string, {
+  return sign({ decode: object }, jwtConf.jwtSecect as string, {
     ...options
   })
 }
 
 export const verifyJWT = (token: string) => {
   try {
-    const { decode } = <any>verify(token, jwt.jwtSecect as string)
+    const { decode } = <any>verify(token, jwtConf.jwtSecect as string)
     return {
       valid: true,
       expired: false,

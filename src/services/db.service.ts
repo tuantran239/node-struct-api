@@ -5,8 +5,7 @@ import {
   QueryOptions,
   UpdateQuery
 } from 'mongoose'
-import { UserDocument } from '../models/User'
-import { throwValidationError } from '../utils/error/mongodb-error'
+import { throwValidationError } from '../error/mongodb-error'
 import { FuncHandleService, Return } from '../utils/funcService'
 
 export const createDoc = <T>(log: string, model: Model<T>, body: Partial<T>) =>

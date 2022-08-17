@@ -1,4 +1,3 @@
-import { TimeSeriesReducers } from '@redis/time-series/dist/commands'
 import { Request, Response } from 'express'
 import cloudinary from '../config/cloudinary'
 import {
@@ -7,12 +6,12 @@ import {
   updateUser,
   uploadAvatar
 } from '../services/user.service'
-import { expressValidatorError } from '../utils/error/express-validator-error'
 import {
   BadRequestResponse,
-  InternalServerErrorResponse,
-  NotFoundResponse
-} from '../utils/error/http.error'
+  CommonErrorResponse,
+  generateError,
+  InternalServerErrorResponse
+} from '../error/http.error'
 import { httpResponse } from '../utils/httpResponse'
 
 export const uploadAvatarHandler = async (req: Request, res: Response) => {
@@ -43,11 +42,6 @@ export const uploadAvatarHandler = async (req: Request, res: Response) => {
 }
 
 export const updateInfoHandler = async (req: Request, res: Response) => {
-  const validatorError = expressValidatorError(req, res)
-  if (validatorError && validatorError.length > 0) {
-    return BadRequestResponse(res, validatorError)
-  }
-
   const user = res.locals.user
 
   const { email, name } = req.body
@@ -64,11 +58,6 @@ export const updateInfoHandler = async (req: Request, res: Response) => {
 }
 
 export const updatePasswordHandler = async (req: Request, res: Response) => {
-  const validatorError = expressValidatorError(req, res)
-  if (validatorError && validatorError.length > 0) {
-    return BadRequestResponse(res, validatorError)
-  }
-
   const { password, newPassword } = req.body
   const user = res.locals.user
 
@@ -76,16 +65,16 @@ export const updatePasswordHandler = async (req: Request, res: Response) => {
     _id: user?._id
   })
   if (errorExist) {
-    return NotFoundResponse(res, errorExist.error)
+    return CommonErrorResponse(res, errorExist)
   }
 
   const isMatch = await u?.comparePassword(password)
 
   if (!isMatch) {
-    return BadRequestResponse(res, {
-      msg: 'Password not match',
-      param: 'password'
-    })
+    return BadRequestResponse(res, generateError(
+      'Password not match',
+      'password'
+    ))
   }
 
   u!!.password = newPassword

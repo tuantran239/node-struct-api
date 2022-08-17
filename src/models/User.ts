@@ -1,15 +1,16 @@
 import { model, Schema, Document } from 'mongoose'
-import { RoleDocument } from './Role'
 import { hash, compare } from 'bcrypt'
+import { AuthType, Role } from '../types/user.type'
 
 export interface UserDocument extends Document {
   name: string
   email: string
   password: string
-  role: RoleDocument['_id']
+  authType: AuthType
+  role: string
   avatar: {
     url: string
-    public_id: string
+    public_id: string | null
   }
   token: string | null
   active: boolean
@@ -25,17 +26,27 @@ const userSchema = new Schema(
       required: true
     },
     email: {
-      type: String,
-      required: true,
-      unique: true
+      type: String
     },
     password: {
       type: String,
       required: true
     },
+    authType: {
+      type: String,
+      enum: {
+        values: [AuthType.EMAIL, AuthType.GOOGLE],
+        message: '{VALUE} is not supported'
+      },
+      default: AuthType.EMAIL
+    },
     role: {
-      type: Schema.Types.ObjectId,
-      ref: 'Role'
+      type: String,
+      enum: {
+        values: [Role.USER, Role.ADMIN],
+        message: '{VALUE} is not supported'
+      },
+      default: Role.USER
     },
     avatar: {
       url: String,

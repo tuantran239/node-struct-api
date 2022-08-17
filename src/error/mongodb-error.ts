@@ -1,5 +1,5 @@
 import { Error as ErrorMongoose } from 'mongoose'
-import { Error, ErrorDataReturn } from '../../types/error.type'
+import { Error, ErrorResponse } from '../types/error.type'
 
 export const throwValidationError = (
   path: string,
@@ -16,7 +16,7 @@ export const throwValidationError = (
   }
 }
 
-type HandleValidationError = (error: any) => ErrorDataReturn
+type HandleValidationError = (error: any) => ErrorResponse
 
 export const handleValidationError: HandleValidationError = (error) => {
   const errors: Error[] = []
@@ -26,26 +26,27 @@ export const handleValidationError: HandleValidationError = (error) => {
         continue
       }
       errors.push({
-        param: property,
-        msg: error.errors[property].message
+        field: property,
+        message: error.errors[property].message
       })
     }
   } else if (error.name === 'MongoServerError' && error.code === 11000) {
     const property = Object.keys(error.keyPattern)[0]
     errors.push({
-      param: property,
-      msg: `${property} is already taken`
+      field: property,
+      message: `${property} is already taken`
     })
   } else {
-    const errorReturn: ErrorDataReturn = {
+    const errorReturn: ErrorResponse = {
       name: 'Internal',
-      error: {
-        param: 'server',
-        msg: error.message
-      }
+      status: 500,
+      error: [{
+        field: 'server',
+        message: error.message
+      }]
     }
     return errorReturn
   }
-  const errorReturn: ErrorDataReturn = { name: 'Validation', error: errors }
+  const errorReturn: ErrorResponse = { name: 'Validation', status: 400, error: errors }
   return errorReturn
 }

@@ -1,7 +1,8 @@
 import { Request, Response } from 'express'
 import rateLimit from 'express-rate-limit'
 import { httpResponse } from '../utils/httpResponse'
-import { ErrorDataReturn } from '../types/error.type'
+import { ErrorResponse } from '../types/error.type'
+import { CommonErrorResponse, generateError } from '../error/http.error'
 
 export const apiLimiter = rateLimit({
   windowMs: 60 * 1000,
@@ -9,13 +10,14 @@ export const apiLimiter = rateLimit({
   standardHeaders: true,
   legacyHeaders: false,
   handler: function (req: Request, res: Response) {
-    const data: ErrorDataReturn = {
+    const data: ErrorResponse = {
       name: 'Too Many Requests',
-      error: {
-        msg: 'Too Many Requests',
-        param: 'server'
-      }
+      error: generateError(
+        'Too Many Requests',
+        'server'
+      ),
+      status: 429
     }
-    return httpResponse(res, 429, data)
+    return CommonErrorResponse(res, data)
   }
 })

@@ -1,5 +1,6 @@
-import User, { UserDocument } from '../models/User'
-import { throwValidationError } from '../utils/error/mongodb-error'
+import User from '../models/User'
+import { AuthType } from '../types/user.type'
+import { throwValidationError } from '../error/mongodb-error'
 import { FuncHandleService } from '../utils/funcService'
 import { signJWT } from '../utils/jwt'
 import { sendMail } from '../utils/nodemailer'
@@ -28,7 +29,7 @@ export const checkLinkVerify = () =>
 
 export const authEmailPassword = (email: string, password: string) =>
   FuncHandleService('Error auth email and password', async () => {
-    const user = await User.findOne({ email }, 'email password active')
+    const user = await User.findOne({ email, authType: AuthType.EMAIL }, 'email password active')
     if (!user) {
       throwValidationError('email', 'email not found', true)
     }

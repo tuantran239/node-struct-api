@@ -1,11 +1,10 @@
-import { ErrorDataReturn } from '../types/error.type'
-
-const { handleValidationError } = require('./error/mongodb-error')
-const logger = require('./logger')
+import { ErrorResponse } from '../types/error.type'
+import { handleValidationError } from '../error/mongodb-error'
+import logger from './logger'
 
 export interface Return<T> {
   data: T
-  error: ErrorDataReturn
+  error: ErrorResponse
 }
 
 export const FuncHandleService = async <T>(
@@ -17,7 +16,7 @@ export const FuncHandleService = async <T>(
     return { data }
   } catch (err) {
     const error = handleValidationError(err)
-    // logger.error({ error }, log)
+    logger.error({ error }, log)
     return { error }
   }
 }

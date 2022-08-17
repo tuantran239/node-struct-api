@@ -6,6 +6,7 @@ import {
 } from '../controllers/user.controller'
 import { autheticate } from '../middlewares/authenticate'
 import { uploadSinge } from '../middlewares/multer'
+import validate from '../middlewares/validate'
 import {
   updateInfoSchema,
   updatePasswordSchema
@@ -20,12 +21,17 @@ router.post(
   uploadAvatarHandler
 )
 
-router.patch('/update-info', autheticate, updateInfoSchema, updateInfoHandler)
+router.patch('/update-info',
+  autheticate,
+  updateInfoSchema,
+  validate,
+  updateInfoHandler)
 
 router.patch(
   '/update-password',
   autheticate,
   updatePasswordSchema,
+  validate,
   updatePasswordHandler
 )
 

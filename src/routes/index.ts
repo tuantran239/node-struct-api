@@ -1,16 +1,16 @@
 import { Router } from 'express'
 
 import authRoutes from './auth.route'
-import roleRoutes from './admin/role.route'
+import authSocialRoutes from './authsocial.route'
 import userRoutes from './user.route'
 import server from '../config/server'
 
 const routes = Router()
 
-routes.use(`${server.version}/${server.routes.auth}`, authRoutes)
+routes.use(server.routes.auth, authRoutes)
 
-routes.use(`${server.version}/${server.routes.role}`, roleRoutes)
+routes.use(server.routes.authSocial, authSocialRoutes)
 
-routes.use(`${server.version}/${server.routes.user}`, userRoutes)
+routes.use(server.routes.user, userRoutes)
 
 export default routes
