@@ -1,23 +1,18 @@
 import express from 'express'
-import logger from './utils/logger'
 import routes from './routes'
 import bodyParser from 'body-parser'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
 import deserializeUser from './middlewares/deserializeUser'
 import path from 'path'
-import YAML from 'yamljs'
-import swaggerUi, { serve } from 'swagger-ui-express'
 import cloudinaryConf from './config/cloudinary'
 import cloudinary from 'cloudinary'
 import server from './config/server'
 import session from 'express-session'
 import passport from 'passport'
+import setSwaggerDoc from './middlewares/swaggerDoc'
 
-import './utils/mongodb'
 import './utils/passport'
-
-const swaggerDoc = YAML.load('./src/doc.yaml')
 
 cloudinary.v2.config({
   cloud_name: cloudinaryConf.cloudinaryName,
@@ -46,7 +41,7 @@ app.use(deserializeUser)
 app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'ejs')
 
-app.use('/v1/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerDoc))
+app.use(setSwaggerDoc)
 
 app.use(passport.initialize())
 app.use(passport.session())

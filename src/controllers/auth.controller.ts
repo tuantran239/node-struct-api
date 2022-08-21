@@ -13,7 +13,7 @@ import {
   generateError,
   InternalServerErrorResponse,
   NotFoundResponse
-} from '../error/http.error'
+} from '../error/http-error'
 import { httpResponse } from '../utils/httpResponse'
 import { signJWT, verifyJWT } from '../utils/jwt'
 
@@ -47,7 +47,7 @@ export const registerHandler = async (req: Request, res: Response) => {
   )
   await updateUser({ email: user?.email as string }, { token })
 
-  return httpResponse(res, 200, {
+  return httpResponse(res, 201, {
     success: true,
     email: user?.email as string,
     method: mailConf.method.register
@@ -125,17 +125,15 @@ export const verifyHandler = async (req: Request, res: Response) => {
   user!!.active = true
   user!!.token = null
   await user!!.save()
-  return res.redirect('/login')
+  return httpResponse(res, 200, { success: true })
 }
 
 export const loginHandler = async (req: Request, res: Response) => {
   const { email, password } = req.body
   const { data: user, error } = await authEmailPassword(email, password)
 
-  if (error && error.name === 'Internal') {
-    return InternalServerErrorResponse(res, error.error)
-  } else if (error && error.name === 'Validation') {
-    return BadRequestResponse(res, error.error)
+  if (error) {
+    return CommonErrorResponse(res, error)
   }
 
   await deleteSession({ user: user?._id })
@@ -192,7 +190,7 @@ export const loginSocialHandler = async (req: any, res: Response) => {
     httpOnly: true
   })
 
-  res.redirect('/login')
+  return httpResponse(res, 200, { success: true })
 }
 
 export const authUserHandler = async (req: Request, res: Response) => {
@@ -303,5 +301,5 @@ export const resetPasswordHandler = async (req: Request, res: Response) => {
   user!!.token = null
   await user!!.save()
 
-  return res.redirect('/login')
+  return httpResponse(res, 200, { success: true })
 }

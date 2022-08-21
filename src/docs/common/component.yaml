@@ -1,0 +1,36 @@
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        name:
+          type: string
+          example: user
+        email:
+          type: string
+          example: example@gmail.com
+        password:
+          type: string
+          example: password
+      required:
+        - name
+        - email
+        - password
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+        field:
+          type: string
+    ErrorResponse:
+      type: object
+      properties:
+        name:
+          type: string
+        error:
+          type: array
+          items:
+            $ref: '#/components/schemas/Error'
+        status:
+          type: integer

@@ -11,7 +11,7 @@ import {
   CommonErrorResponse,
   generateError,
   InternalServerErrorResponse
-} from '../error/http.error'
+} from '../error/http-error'
 import { httpResponse } from '../utils/httpResponse'
 
 export const uploadAvatarHandler = async (req: Request, res: Response) => {

@@ -1,7 +1,7 @@
 import { Request, Response, Router } from 'express'
 import passport from 'passport'
 import { loginSocialHandler } from '../controllers/auth.controller'
-import { generateError, UnauthorizedResponse } from '../error/http.error'
+import { generateError, UnauthorizedResponse } from '../error/http-error'
 
 const router = Router()
 

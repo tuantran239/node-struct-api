@@ -1,5 +1,4 @@
 node_modules
 .env
 Dockerfile.dev
-dockerfile-compose.yml
-dockerfile-compose.dev.yml
+./src/jest/config.ts

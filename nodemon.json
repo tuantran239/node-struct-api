@@ -1,0 +1,8 @@
+{
+  "watch": ["src"],
+  "env": {
+    "NODE_ENV": "development"
+  },
+  "ext": "js,ts,yml,yaml,json",
+  "exec": "ts-node --files ./src/index.ts"
+}

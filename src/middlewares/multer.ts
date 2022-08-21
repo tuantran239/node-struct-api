@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express'
 import multer from 'multer'
 
-import { generateError, InternalServerErrorResponse } from '../error/http.error'
+import { generateError, InternalServerErrorResponse } from '../error/http-error'
 
 export const uploadSinge =
   (fileName: string) => (req: Request, res: Response, next: NextFunction) => {

@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express'
 import cookie from '../config/cookie'
-import jwt from '../config/jwt'
+import jwtConf from '../config/jwt'
 import { getSessionExist } from '../services/session.service'
 import { verifyJWT, signJWT } from '../utils/jwt'
 
@@ -39,7 +39,7 @@ const deserializeUser = async (
         return next()
       }
       const newAccessToken = signJWT(decode, {
-        expiresIn: jwt.timeAccessToken
+        expiresIn: jwtConf.timeAccessToken
       })
       res.clearCookie('access')
       res.cookie('access', newAccessToken, {

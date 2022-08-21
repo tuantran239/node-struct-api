@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    depends_on:
+      - node-ts-struct
+    ports:
+      - '5000:80'
+    container_name: nginx
+    restart: always
+  redis:
+    image: redis:alpine
+    container_name: redis
+    ports:
+      - '6379:6379'
+  node-ts-struct:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ./:/usr/app
+      - /usr/app/node_modules

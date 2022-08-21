@@ -4,7 +4,7 @@ import {
   generateError,
   InternalServerErrorResponse,
   UnauthorizedResponse
-} from '../error/http.error'
+} from '../error/http-error'
 
 export const autheticate = async (
   req: Request,
