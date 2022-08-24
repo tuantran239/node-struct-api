@@ -1,6 +1,6 @@
 import 'dotenv/config'
 
-const jwtSecect = process.env.JWT_SECRET
+const jwtSecect = process.env.JWT_SECRET || 'secret'
 
 const timeRefeshToken = '60m'
 

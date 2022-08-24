@@ -16,6 +16,7 @@ import {
 } from '../error/http-error'
 import { httpResponse } from '../utils/httpResponse'
 import { signJWT, verifyJWT } from '../utils/jwt'
+import { sendMailWorker } from '../worker/email-worker'
 
 export const registerHandler = async (req: Request, res: Response) => {
   const { error: errorExist } = await getUserExist(
@@ -40,11 +41,15 @@ export const registerHandler = async (req: Request, res: Response) => {
     return CommonErrorResponse(res, error)
   }
 
-  const { data: token } = await sendLinkVerify(
-    user?.email as string,
-    mailConf.method.register,
-    mailConf.link.register
+  const token = signJWT(
+    { email: user?.email as string, method: mailConf.method.register },
+    {
+      expiresIn: '1h'
+    }
   )
+
+  await sendMailWorker({ email: user?.email as string, token, link: mailConf.link.register })
+
   await updateUser({ email: user?.email as string }, { token })
 
   return httpResponse(res, 201, {
@@ -79,14 +84,14 @@ export const sendMailHandler = async (req: Request, res: Response) => {
       return BadRequestResponse(res, generateError('Method Invalid', 'server'))
   }
 
-  const { error, data: newToken } = await sendLinkVerify(
-    email as string,
-    method as string,
-    link
+  const newToken = signJWT(
+    { email: email as string, method: method as string },
+    {
+      expiresIn: '1h'
+    }
   )
-  if (error) {
-    return InternalServerErrorResponse(res, error.error)
-  }
+
+  await sendMailWorker({ email: email as string, token: newToken, link: link as string })
 
   await updateUser({ email }, { token: newToken })
 
@@ -215,11 +220,13 @@ export const forgotPasswordHandler = async (req: Request, res: Response) => {
   if (errorExist) {
     return BadRequestResponse(res, errorExist.error)
   }
-  const { data: token } = await sendLinkVerify(
-    user?.email as string,
-    mailConf.method.resetPassword,
-    mailConf.link.resetPassword
+  const token = signJWT(
+    { email: user?.email as string, method: mailConf.method.resetPassword },
+    {
+      expiresIn: '1h'
+    }
   )
+  await sendMailWorker({ email: user?.email as string, token, link: mailConf.link.resetPassword })
   await updateUser({ email: user?.email as string }, { token })
   return httpResponse(res, 200, {
     success: true,

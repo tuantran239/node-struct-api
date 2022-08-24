@@ -2,23 +2,16 @@ import User from '../models/User'
 import { AuthType } from '../types/user.type'
 import { throwValidationError } from '../error/mongodb-error'
 import { FuncHandleService } from '../utils/funcService'
-import { signJWT } from '../utils/jwt'
 import { sendMail } from '../utils/nodemailer'
 
 export const sendLinkVerify = async (
   email: string,
-  method: string,
+  token: string,
   link: string
 ) =>
   FuncHandleService('Error send link verify', async () => {
-    const token = signJWT(
-      { email, method },
-      {
-        expiresIn: 60 * 60 * 1000
-      }
-    )
     const href = `${link}/${token}`
-    await sendMail({ to: email, html: `<a href=${href}>${href}</a>` })
+    await sendMail({ to: email }, { link: href, title: 'Verify Email', content: 'Click link below to verify your email' })
     return token
   })
 

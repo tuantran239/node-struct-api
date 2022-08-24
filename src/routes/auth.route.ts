@@ -1,5 +1,4 @@
 import { Request, Response, Router } from 'express'
-import passport from 'passport'
 import {
   authUserHandler,
   forgotPasswordHandler,

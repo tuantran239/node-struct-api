@@ -1,8 +1,6 @@
 import nodemailer from 'nodemailer'
-import { config } from 'dotenv'
 import mail from '../config/mail'
-
-config()
+import { EmailInfo, emailVerifyTemplate } from './templates/email-template'
 
 export type MailConfig = {
   from?: string
@@ -22,13 +20,13 @@ const transporter = nodemailer.createTransport({
   }
 })
 
-export const sendMail = async (config: MailConfig) => {
+export const sendMail = async (config: MailConfig, emailInfo: EmailInfo) => {
   const {
     from = 'noreply@gmail.com',
     to,
-    subject = 'Send Mail',
+    subject = 'Verify Email',
     text = 'This test mail',
-    html = '<b>Hello world?</b>'
+    html = emailVerifyTemplate(emailInfo)
   } = config
   await transporter.sendMail({
     from,

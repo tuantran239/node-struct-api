@@ -3,13 +3,13 @@ import fs from 'fs'
 import util from 'util'
 import path from 'path'
 
-export const mapPathFolder = async (p: string) => {
+export const mapPathFolderYAML = async (p: string) => {
     const readdirAsync = await util.promisify(fs.readdir)
     const folders = await readdirAsync(path.join(process.cwd(), p), {})
     return folders.map(folder => path.join(process.cwd(), p, folder as string))
 }
 
-export const mapPathFile = async (folders: string[]) => {
+export const mapPathFileYAML = async (folders: string[]) => {
     const files: string[] = []
     const readdirAsync = await util.promisify(fs.readdir)
     const filesArray = await Promise.all(folders.map(folder => readdirAsync(folder)))

@@ -11,6 +11,7 @@ import server from './config/server'
 import session from 'express-session'
 import passport from 'passport'
 import setSwaggerDoc from './middlewares/swaggerDoc'
+import consumer from './middlewares/consumer'
 
 import './utils/passport'
 
@@ -45,6 +46,8 @@ app.use(setSwaggerDoc)
 
 app.use(passport.initialize())
 app.use(passport.session())
+
+app.use(consumer)
 app.use(routes)
 
 export default app

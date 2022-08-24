@@ -16,6 +16,14 @@ services:
     container_name: redis
     ports:
       - '6379:6379'
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    restart: always
+    ports:
+      - '5672:5672'
+      - '15672:15672'
+    depends_on:
+      - node-ts-struct
   node-ts-struct:
     build:
       context: .
