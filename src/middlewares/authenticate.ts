@@ -5,6 +5,7 @@ import {
   InternalServerErrorResponse,
   UnauthorizedResponse
 } from '../error/http-error'
+import { hGetAuth, hSetAuth } from '../services/redis.service'
 
 export const autheticate = async (
   req: Request,
@@ -15,13 +16,24 @@ export const autheticate = async (
   if (!userId) {
     return UnauthorizedResponse(res, generateError('unauthorized', 'user'))
   }
-  const { data: user, error } = await getUserExist(
-    false,
-    { _id: userId },
-    '-password -token'
-  )
-  if (error) {
-    return InternalServerErrorResponse(res, error.error)
+
+  let user: any | null = null
+  const userJson = await hGetAuth(userId)
+
+  if (userJson) {
+    user = userJson
+  } else {
+    const { data, error } = await getUserExist(
+      false,
+      { _id: userId },
+      '-password -token'
+    )
+    if (error) {
+      return InternalServerErrorResponse(res, error.error)
+    } else {
+      user = data!
+      await hSetAuth(userId, user)
+    }
   }
   if (user && !user.active) {
     return UnauthorizedResponse(res, generateError(

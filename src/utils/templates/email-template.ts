@@ -83,7 +83,7 @@ export const emailVerifyTemplate = (emailInfo: EmailInfo) => {
           padding: 0;
           border-top: 1px solid #e7eaec;
           border-bottom: 1px solid #e7eaec;
-          background-color: #ffffff;
+          background-color: #f6f6f6;
         }
         .email-body_inner {
           width: 570px;
@@ -156,7 +156,7 @@ export const emailVerifyTemplate = (emailInfo: EmailInfo) => {
         /* Buttons ------------------------------ */
         .button {
           display: inline-block;
-          width: 200px;
+          width: 100px;
           background-color: #414ef9;
           border-radius: 3px;
           color: #ffffff;
@@ -252,7 +252,7 @@ export const emailVerifyTemplate = (emailInfo: EmailInfo) => {
                                   <td align="center">
                                   <div class="code-container">
                                   <h1>Link verify your email</h1>
-                                        <a class="btn btn-primary" href=${emailInfo.link}>Click Here</a>
+                                        <a class="button" href=${emailInfo.link}>Click Here</a>
                                   </div>
                                   </td>
                                 </tr>

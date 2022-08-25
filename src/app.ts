@@ -11,7 +11,7 @@ import server from './config/server'
 import session from 'express-session'
 import passport from 'passport'
 import setSwaggerDoc from './middlewares/swaggerDoc'
-import consumer from './middlewares/consumer'
+import consumer from './worker/consumer'
 
 import './utils/passport'
 

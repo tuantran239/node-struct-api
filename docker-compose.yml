@@ -14,6 +14,8 @@ services:
   redis:
     image: redis:alpine
     container_name: redis
+    volumes:
+      - .docker/data/redis:/data
     ports:
       - '6379:6379'
   rabbitmq:
@@ -24,6 +26,7 @@ services:
       - '15672:15672'
     depends_on:
       - node-ts-struct
+    container_name: rabbitmq
   node-ts-struct:
     build:
       context: .
@@ -31,3 +34,4 @@ services:
     volumes:
       - ./:/usr/app
       - /usr/app/node_modules
+    container_name: node-ts-struct

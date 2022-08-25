@@ -6,7 +6,7 @@ import {
 } from 'mongoose'
 import User, { UserDocument } from '../models/User'
 import { destroyCloudinary, uploadToCloudinary } from '../utils/cloudinary'
-import { FuncHandleService } from '../utils/funcService'
+import { FuncHandleService } from '../utils/functions/funcService'
 import {
   createDoc,
   getDoc,

@@ -5,6 +5,7 @@ import logger from '../utils/logger'
 
 type SendMailWorker = {
     email: string,
+    method: string,
     token: string,
     link: string
 }

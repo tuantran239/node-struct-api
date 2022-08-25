@@ -15,6 +15,7 @@
     "no-unused-vars": "off",
     "indent": "off",
     "no-undef": "off",
-    "no-useless-catch": "off"
+    "no-useless-catch": "off",
+    "no-multiple-empty-lines": "off"
   }
 }

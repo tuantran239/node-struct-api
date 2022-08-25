@@ -8,7 +8,7 @@ const password = process.env.EMAIL_PASSWORD
 
 const method = {
   register: 'register',
-  resetPassword: 'resetPassword'
+  resetPassword: 'reset password'
 }
 
 const link = {

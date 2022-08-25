@@ -14,12 +14,12 @@ import {
 } from '../error/http-error'
 import { httpResponse } from '../utils/httpResponse'
 
+
 export const uploadAvatarHandler = async (req: Request, res: Response) => {
   const file = req.file
   const user = res.locals.user
 
   const { error: errorDel } = await deleteAvatar(user?.avatar.public_id)
-
   if (errorDel) {
     return InternalServerErrorResponse(res, errorDel.error)
   }
@@ -28,34 +28,31 @@ export const uploadAvatarHandler = async (req: Request, res: Response) => {
     file!!,
     cloudinary.folder('avatar', user?.id)
   )
-  if (error && error.name === 'Internal') {
-    return InternalServerErrorResponse(res, error.error)
-  } else if (error && error.name === 'Validation') {
-    return BadRequestResponse(res, error.error)
+  if (error) {
+    return CommonErrorResponse(res, error)
   }
 
   await updateUser(
     { _id: user?.id },
     { avatar: { public_id: result?.public_id, url: result?.url } }
   )
+
   return httpResponse(res, 200, { success: true })
 }
 
+
 export const updateInfoHandler = async (req: Request, res: Response) => {
   const user = res.locals.user
-
   const { email, name } = req.body
 
   const { error } = await updateUser({ _id: user?._id }, { email, name })
-
-  if (error && error.name === 'Internal') {
-    return InternalServerErrorResponse(res, error.error)
-  } else if (error && error.name === 'Validation') {
-    return BadRequestResponse(res, error.error)
+  if (error) {
+    return CommonErrorResponse(res, error)
   }
 
   return httpResponse(res, 200, { success: true })
 }
+
 
 export const updatePasswordHandler = async (req: Request, res: Response) => {
   const { password, newPassword } = req.body
@@ -69,7 +66,6 @@ export const updatePasswordHandler = async (req: Request, res: Response) => {
   }
 
   const isMatch = await u?.comparePassword(password)
-
   if (!isMatch) {
     return BadRequestResponse(res, generateError(
       'Password not match',

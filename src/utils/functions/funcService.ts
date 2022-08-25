@@ -1,6 +1,6 @@
-import { ErrorResponse } from '../types/error.type'
-import { handleValidationError } from '../error/mongodb-error'
-import logger from './logger'
+import { ErrorResponse } from '../../types/error.type'
+import { handleValidationError } from '../../error/mongodb-error'
+import logger from '../logger'
 
 export interface Return<T> {
   data: T

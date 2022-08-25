@@ -1,12 +1,12 @@
 import 'dotenv/config'
 
-const redisPort = process.env.REDIS_PORT
+const port = parseInt(process.env.REDIS_PORT as string) || 6379
 
-const redisHost = process.env.REDIS_HOST
+const host = process.env.REDIS_HOST || 'redis'
 
 const redisConf = {
-  redisPort,
-  redisHost
+  host,
+  port
 }
 
 export default redisConf

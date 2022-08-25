@@ -15,17 +15,17 @@ const consumer = async (req: Request, res: Response, next: NextFunction) => {
                 const data = JSON.parse(msg.content.toString())
                 await await sendLinkVerify(
                     data.email,
+                    data.method,
                     data.token,
                     data.link
                 )
                 channel.ack(msg)
             }
         })
-        return next()
     } catch (error: any) {
         logger.error({ error: error.message }, 'Error consumer rabbitmq')
-        return next()
     }
+    next()
 }
 
 export default consumer
