@@ -1,8 +1,10 @@
 import 'dotenv/config'
 
-const domain = process.env.DOMAIN
+const domain = process.env.DOMAIN || 'http://localhost:5000'
 
-const version = process.env.VERSION
+const clientUrl = process.env.CLIENT_URL || 'http://localhost:3000'
+
+const version = process.env.VERSION || 'v1'
 
 const commonRoute = `/api/${version}`
 
@@ -16,7 +18,8 @@ const serverConf = {
   domain,
   version,
   commonRoute,
-  routes
+  routes,
+  clientUrl
 }
 
 export default serverConf
