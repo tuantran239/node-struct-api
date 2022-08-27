@@ -15,7 +15,10 @@
       "./tests/jest/setup.ts"
     ]
   },
- 
+  "_moduleAliases": {
+    "@config": "./src/config/index.ts",
+    "@api": "./src/api/"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",

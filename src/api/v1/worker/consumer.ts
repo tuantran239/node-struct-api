@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express'
 import amqp from 'amqplib'
 import logger from '../utils/logger'
-import { rabbitmqConf } from '../../../config'
+import { rabbitmqConf } from '@config'
 import { sendLinkVerify } from '../services/auth.service'
 
 const consumer = async (req: Request, res: Response, next: NextFunction) => {

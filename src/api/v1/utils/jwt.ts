@@ -1,5 +1,5 @@
 import { sign, verify, SignOptions } from 'jsonwebtoken'
-import { jwtConf } from '../../../config'
+import { jwtConf } from '@config'
 
 export const signJWT = (object: Object, options?: SignOptions) => {
   return sign({ decode: object }, jwtConf.jwtSecect as string, {

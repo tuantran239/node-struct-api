@@ -1,6 +1,6 @@
+import { passportConf } from '@config'
 import passport from 'passport'
 import passportGoogle from 'passport-google-oauth20'
-import { passportConf } from '../../../config'
 import { createUser, getUser } from '../services/user.service'
 import { AuthType } from '../types/user.type'
 import { generateAvatarUrl } from './common'

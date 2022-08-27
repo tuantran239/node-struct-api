@@ -1,5 +1,5 @@
 import { Request, Response } from 'express'
-import { cloudinaryConf } from '../../../config'
+import { cloudinaryConf } from '@config'
 import { deleteAvatar, getUserExist, updateUser, uploadAvatar } from '../services/user.service'
 import {
   BadRequestResponse,

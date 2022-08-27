@@ -1,5 +1,5 @@
 import nodemailer from 'nodemailer'
-import { mailConf } from '../../../config'
+import { mailConf } from '@config'
 import { EmailInfo, emailVerifyTemplate } from './templates/email-template'
 
 export type MailConfig = {

@@ -1,5 +1,5 @@
 import { Request, Response } from 'express'
-import { jwtConf, mailConf, cookieConf } from '../../../config'
+import { jwtConf, mailConf, cookieConf } from '@config'
 import { authEmailPassword } from '../services/auth.service'
 import { createSession, deleteSession } from '../services/session.service'
 import { createUser, getUserExist, updateUser } from '../services/user.service'

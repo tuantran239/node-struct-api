@@ -1,23 +1,32 @@
 {
   "compilerOptions": {
-    "target": "es2016",
+    "target": "ES6",
+    "lib": [
+      "DOM",
+      "ES6"
+    ],
     "module": "commonjs",
-    "baseUrl": ".",
+    "baseUrl": "./src",
     "paths": {
-      "@config/*": [
-        "./src/config/*"
+      "@config": [
+        "./config/index.ts"
+      ],
+      "@api/*": [
+        "./api/*"
       ],
     },
-    "isolatedModules": false,
+    // "isolatedModules": false,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "rootDir": "./src",
+    "outDir": "./dist"
   },
-  "include": [
-    "src/**/*",
-    "src/api/v1/**/*"
-  ],
+  // "include": [
+  //   "src/**/*",
+  //   "src/api/v1/**/*"
+  // ],
   "exclude": [
     "node_modules"
   ]

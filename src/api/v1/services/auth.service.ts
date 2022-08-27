@@ -3,7 +3,7 @@ import User from '../models/User'
 import { throwValidationError } from '../error/mongodb-error'
 import { FuncHandleService } from '../utils/functions'
 import { sendMail } from '../utils/nodemailer'
-import { mailConf } from '../../../config'
+import { mailConf } from '@config'
 
 export const sendLinkVerify = async (email: string, method: string, token: string, link: string) =>
   FuncHandleService('Error send link verify', async () => {

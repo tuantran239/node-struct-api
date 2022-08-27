@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express'
-import { cookieConf, jwtConf } from '../../../config'
+import { cookieConf, jwtConf } from '@config'
 import { getSessionExist } from '../services/session.service'
 import { verifyJWT, signJWT } from '../utils/jwt'
 

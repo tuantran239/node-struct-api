@@ -1,5 +1,5 @@
 import amqp from 'amqplib'
-import { rabbitmqConf } from '../../../config'
+import { rabbitmqConf } from '@config'
 import logger from '../utils/logger'
 
 type SendMailWorker = {

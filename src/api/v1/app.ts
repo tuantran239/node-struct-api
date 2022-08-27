@@ -9,11 +9,9 @@ import session from 'express-session'
 import passport from 'passport'
 import consumer from './worker/consumer'
 import { deserializeUser, setSwagger } from './middlewares'
-import { cloudinaryConf, serverConf } from '../../config'
+import { cloudinaryConf, serverConf } from '@config'
 
 import './utils/passport'
-
-require('module-alias/register')
 
 cloudinary.v2.config({
   cloud_name: cloudinaryConf.cloudinaryName,

@@ -1,8 +1,9 @@
-import app from './api/v1/app'
-import { logger } from './api/v1/utils'
+import 'module-alias/register'
+
+import app from '@api/v1/app'
+import { logger } from '@api/v1/utils'
 
 import './mongodb'
-import 'module-alias/register'
 
 const PORT = process.env.PORT || 5000
 

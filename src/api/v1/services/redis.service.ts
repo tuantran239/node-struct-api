@@ -1,4 +1,4 @@
-import { redisConf } from '../../../config'
+import { redisConf } from '@config'
 import { createClient, RedisClientType } from 'redis'
 import { FuncHandleHGet, FuncHandleHSet } from '../utils/functions/functionRedis'
 import { RedisKeys } from '../utils/keys'
