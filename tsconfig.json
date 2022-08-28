@@ -12,7 +12,7 @@
         "./config/index.ts"
       ],
       "@api/*": [
-        "./api/*"
+        "./api/v1/*"
       ],
     },
     // "isolatedModules": false,
@@ -20,13 +20,12 @@
     "forceConsistentCasingInFileNames": true,
     "strict": true,
     "skipLibCheck": true,
-    "rootDir": "./src",
-    "outDir": "./dist"
+    // "rootDir": "./src"
   },
-  // "include": [
-  //   "src/**/*",
-  //   "src/api/v1/**/*"
-  // ],
+  "include": [
+    "src/**/*",
+    "src/api/v1/**/*"
+  ],
   "exclude": [
     "node_modules"
   ]

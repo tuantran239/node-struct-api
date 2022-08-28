@@ -10,7 +10,7 @@ const commonRoute = `/api/${version}`
 
 const routes = {
   auth: `${commonRoute}/auth`,
-  authSocial: 'api',
+  authSocial: '/api',
   user: `${commonRoute}/user`
 }
 

@@ -1,5 +1,5 @@
 import { Request, Response } from 'express'
-import { jwtConf, mailConf, cookieConf } from '@config'
+import { jwtConf, mailConf, cookieConf, serverConf } from '@config'
 import { authEmailPassword } from '../services/auth.service'
 import { createSession, deleteSession } from '../services/session.service'
 import { createUser, getUserExist, updateUser } from '../services/user.service'
@@ -121,7 +121,7 @@ export const verifyHandler = async (req: Request, res: Response) => {
   user!!.token = null
   await user!!.save()
 
-  return HttpResponse(res, 200, { success: true })
+  res.redirect(`${serverConf.clientUrl}/login`)
 }
 
 
@@ -179,7 +179,7 @@ export const loginSocialHandler = async (req: any, res: Response) => {
     httpOnly: true
   })
 
-  return HttpResponse(res, 200, { success: true })
+  res.redirect(serverConf.clientUrl)
 }
 
 
@@ -294,5 +294,5 @@ export const resetPasswordHandler = async (req: Request, res: Response) => {
   user!!.token = null
   await user!!.save()
 
-  return HttpResponse(res, 200, { success: true })
+  res.redirect(`${serverConf.clientUrl}/login`)
 }

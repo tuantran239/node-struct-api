@@ -1,6 +1,6 @@
 import { connect, ConnectOptions } from 'mongoose'
 import { dbConf } from './config'
-import { logger } from '@api/v1/utils'
+import { logger } from '@api/utils'
 
 const options = {
   useNewUrlParser: true,
