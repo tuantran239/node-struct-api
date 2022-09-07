@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express'
-import { cookieConf, jwtConf } from '@config'
 import { getSessionExist } from '../services/session.service'
 import { verifyJWT, signJWT } from '../utils/jwt'
+import { cookieCons, jwtCons } from '@api/constants'
 
 export const deserializeUser = async (req: Request, res: Response, next: NextFunction) => {
   const accessToken = req.cookies.access
@@ -34,11 +34,11 @@ export const deserializeUser = async (req: Request, res: Response, next: NextFun
         return next()
       }
       const newAccessToken = signJWT(decode, {
-        expiresIn: jwtConf.timeAccessToken
+        expiresIn: jwtCons.timeAccessToken
       })
       res.clearCookie('access')
       res.cookie('access', newAccessToken, {
-        maxAge: cookieConf.timeCookieAccessToken,
+        maxAge: cookieCons.timeCookieAccessToken,
         httpOnly: true
       })
       res.locals.user = decode?.userId

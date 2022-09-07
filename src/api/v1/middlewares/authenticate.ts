@@ -7,7 +7,7 @@ import {
 } from '../error/http-error'
 import { hGetAuth, hSetAuth } from '../services/redis.service'
 
-export const autheticate = async (
+export const authenticate = async (
   req: Request,
   res: Response,
   next: NextFunction

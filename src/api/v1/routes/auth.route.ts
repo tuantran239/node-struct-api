@@ -10,7 +10,7 @@ import {
   sendMailHandler,
   verifyHandler
 } from '../controllers/auth.controller'
-import { autheticate, apiLimiter, validate } from '../middlewares'
+import { authenticate, apiLimiter, validate } from '../middlewares'
 import {
   createUserSchema,
   forgotPasswordSchema,
@@ -24,9 +24,9 @@ router.get('/hi', (req: Request, res: Response) => {
   res.send('hi')
 })
 
-router.get('/', autheticate, authUserHandler)
+router.get('/', authenticate, authUserHandler)
 
-router.get('/logout', autheticate, logoutHandler)
+router.get('/logout', authenticate, logoutHandler)
 
 router.get('/verify/:token', verifyHandler)
 

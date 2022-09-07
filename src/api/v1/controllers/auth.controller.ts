@@ -1,5 +1,5 @@
 import { Request, Response } from 'express'
-import { jwtConf, mailConf, cookieConf, serverConf } from '@config'
+import { serverConf } from '@config'
 import { authEmailPassword } from '../services/auth.service'
 import { createSession, deleteSession } from '../services/session.service'
 import { createUser, getUserExist, updateUser } from '../services/user.service'
@@ -13,7 +13,7 @@ import {
 } from '../error/http-error'
 import { HttpResponse, signJWT, verifyJWT, generateAvatarUrl } from '../utils'
 import { sendMailWorker } from '../worker/email-worker'
-
+import { cookieCons, jwtCons, mailCons } from '@api/constants'
 
 export const signupHandler = async (req: Request, res: Response) => {
   const { error: errorExist } = await getUserExist(
@@ -38,21 +38,25 @@ export const signupHandler = async (req: Request, res: Response) => {
   }
 
   const token = signJWT(
-    { email: user?.email as string, method: mailConf.method.register },
+    { email: user?.email as string, method: mailCons.method.register },
     {
       expiresIn: '1h'
     }
   )
-  await sendMailWorker({ email: user?.email as string, method: mailConf.method.register, token, link: mailConf.link.register })
+  await sendMailWorker({
+    email: user?.email as string,
+    method: mailCons.method.register,
+    token,
+    link: mailCons.link.register
+  })
   await updateUser({ email: user?.email as string }, { token })
 
   return HttpResponse(res, 201, {
     success: true,
     email: user?.email as string,
-    method: mailConf.method.register
+    method: mailCons.method.register
   })
 }
-
 
 export const sendMailHandler = async (req: Request, res: Response) => {
   const { email, method } = req.body
@@ -67,11 +71,11 @@ export const sendMailHandler = async (req: Request, res: Response) => {
 
   let link: string = ''
   switch (method) {
-    case mailConf.method.register:
-      link = mailConf.link.register
+    case mailCons.method.register:
+      link = mailCons.link.register
       break
-    case mailConf.method.resetPassword:
-      link = mailConf.link.resetPassword
+    case mailCons.method.resetPassword:
+      link = mailCons.link.resetPassword
       break
     default:
       return BadRequestResponse(res, generateError('Method Invalid', 'server'))
@@ -83,12 +87,16 @@ export const sendMailHandler = async (req: Request, res: Response) => {
       expiresIn: '1h'
     }
   )
-  await sendMailWorker({ email: email as string, method, token: newToken, link: link as string })
+  await sendMailWorker({
+    email: email as string,
+    method,
+    token: newToken,
+    link: link as string
+  })
   await updateUser({ email }, { token: newToken })
 
   return HttpResponse(res, 200, { success: true })
 }
-
 
 export const verifyHandler = async (req: Request, res: Response) => {
   const { token } = req.params
@@ -96,17 +104,14 @@ export const verifyHandler = async (req: Request, res: Response) => {
   if (!valid && expired) {
     return BadRequestResponse(res, generateError('Token expired', 'server'))
   } else if (!valid) {
-    return InternalServerErrorResponse(res, generateError(
-      'Error server',
-      'server'
-    ))
+    return InternalServerErrorResponse(
+      res,
+      generateError('Error server', 'server')
+    )
   }
 
-  if (!Object.values(mailConf.method).includes(decode.method as string)) {
-    return BadRequestResponse(res, generateError(
-      'Method Invalid',
-      'server'
-    ))
+  if (!Object.values(mailCons.method).includes(decode.method as string)) {
+    return BadRequestResponse(res, generateError('Method Invalid', 'server'))
   }
 
   const { error: errorExist, data: user } = await getUserExist(false, {
@@ -124,7 +129,6 @@ export const verifyHandler = async (req: Request, res: Response) => {
   res.redirect(`${serverConf.clientUrl}/login`)
 }
 
-
 export const loginHandler = async (req: Request, res: Response) => {
   const { email, password } = req.body
   const { data: user, error } = await authEmailPassword(email, password)
@@ -141,20 +145,19 @@ export const loginHandler = async (req: Request, res: Response) => {
   }
 
   const objJwt = { userId: user?._id, sessionId: session?._id }
-  const accessToken = signJWT(objJwt, { expiresIn: jwtConf.timeAccessToken })
-  const refreshToken = signJWT(objJwt, { expiresIn: jwtConf.timeRefeshToken })
+  const accessToken = signJWT(objJwt, { expiresIn: jwtCons.timeAccessToken })
+  const refreshToken = signJWT(objJwt, { expiresIn: jwtCons.timeRefeshToken })
   res.cookie('access', accessToken, {
-    maxAge: cookieConf.timeCookieAccessToken,
+    maxAge: cookieCons.timeCookieAccessToken,
     httpOnly: true
   })
   res.cookie('refresh', refreshToken, {
-    maxAge: cookieConf.timeCookieRefeshToken,
+    maxAge: cookieCons.timeCookieRefeshToken,
     httpOnly: true
   })
 
   return HttpResponse(res, 200, { success: true })
 }
-
 
 export const loginSocialHandler = async (req: any, res: Response) => {
   const user = req.user
@@ -168,26 +171,24 @@ export const loginSocialHandler = async (req: any, res: Response) => {
   }
 
   const objJwt = { userId: user?._id, sessionId: session?._id }
-  const accessToken = signJWT(objJwt, { expiresIn: jwtConf.timeAccessToken })
-  const refreshToken = signJWT(objJwt, { expiresIn: jwtConf.timeRefeshToken })
+  const accessToken = signJWT(objJwt, { expiresIn: jwtCons.timeAccessToken })
+  const refreshToken = signJWT(objJwt, { expiresIn: jwtCons.timeRefeshToken })
   res.cookie('access', accessToken, {
-    maxAge: cookieConf.timeCookieAccessToken,
+    maxAge: cookieCons.timeCookieAccessToken,
     httpOnly: true
   })
   res.cookie('refresh', refreshToken, {
-    maxAge: cookieConf.timeCookieRefeshToken,
+    maxAge: cookieCons.timeCookieRefeshToken,
     httpOnly: true
   })
 
   res.redirect(serverConf.clientUrl)
 }
 
-
 export const authUserHandler = async (req: Request, res: Response) => {
   const user = res.locals.user
   return HttpResponse(res, 200, { user })
 }
-
 
 export const logoutHandler = async (req: Request, res: Response) => {
   const user = res.locals.user
@@ -196,7 +197,6 @@ export const logoutHandler = async (req: Request, res: Response) => {
   await deleteSession({ user: user._id })
   return HttpResponse(res, 200, { success: true })
 }
-
 
 export const forgotPasswordHandler = async (req: Request, res: Response) => {
   const { email } = req.body
@@ -209,42 +209,40 @@ export const forgotPasswordHandler = async (req: Request, res: Response) => {
   }
 
   const token = signJWT(
-    { email: user?.email as string, method: mailConf.method.resetPassword },
+    { email: user?.email as string, method: mailCons.method.resetPassword },
     {
       expiresIn: '1h'
     }
   )
-  await sendMailWorker({ email: user?.email as string, method: mailConf.method.resetPassword, token, link: mailConf.link.resetPassword })
+  await sendMailWorker({
+    email: user?.email as string,
+    method: mailCons.method.resetPassword,
+    token,
+    link: mailCons.link.resetPassword
+  })
   await updateUser({ email: user?.email as string }, { token })
 
   return HttpResponse(res, 200, {
     success: true,
     email: user?.email as string,
-    method: mailConf.method.resetPassword
+    method: mailCons.method.resetPassword
   })
 }
-
 
 export const resetPasswordPage = async (req: Request, res: Response) => {
   const { token } = req.params
   const { decode, valid, expired } = verifyJWT(token)
   if (!valid && expired) {
-    return BadRequestResponse(res, generateError(
-      'Token expired',
-      'server'
-    ))
+    return BadRequestResponse(res, generateError('Token expired', 'server'))
   } else if (!valid) {
-    return InternalServerErrorResponse(res, generateError(
-      'Error server',
-      'server'
-    ))
+    return InternalServerErrorResponse(
+      res,
+      generateError('Error server', 'server')
+    )
   }
 
-  if (decode.method !== mailConf.method.resetPassword) {
-    return BadRequestResponse(res, generateError(
-      'Method Invalid',
-      'server'
-    ))
+  if (decode.method !== mailCons.method.resetPassword) {
+    return BadRequestResponse(res, generateError('Method Invalid', 'server'))
   }
 
   const { error: errorExist } = await getUserExist(false, {
@@ -258,27 +256,20 @@ export const resetPasswordPage = async (req: Request, res: Response) => {
   res.render('reset-password.ejs')
 }
 
-
 export const resetPasswordHandler = async (req: Request, res: Response) => {
   const { token } = req.params
   const { decode, valid, expired } = verifyJWT(token)
   if (!valid && expired) {
-    return BadRequestResponse(res, generateError(
-      'Token expired',
-      'server'
-    ))
+    return BadRequestResponse(res, generateError('Token expired', 'server'))
   } else if (!valid) {
-    return InternalServerErrorResponse(res, generateError(
-      'Error server',
-      'server'
-    ))
+    return InternalServerErrorResponse(
+      res,
+      generateError('Error server', 'server')
+    )
   }
 
-  if (decode.method !== mailConf.method.resetPassword) {
-    return BadRequestResponse(res, generateError(
-      'Method Invalid',
-      'server'
-    ))
+  if (decode.method !== mailCons.method.resetPassword) {
+    return BadRequestResponse(res, generateError('Method Invalid', 'server'))
   }
 
   const { error: errorExist, data: user } = await getUserExist(false, {

@@ -25,7 +25,7 @@
   "include": [
     "src/**/*",
     "src/api/v1/**/*"
-  ],
+, "ecosystem.config.js"  ],
   "exclude": [
     "node_modules"
   ]

@@ -1,20 +1,8 @@
-import {
-  FilterQuery,
-  ProjectionType,
-  QueryOptions,
-  UpdateQuery
-} from 'mongoose'
+import { FilterQuery, ProjectionType, QueryOptions, UpdateQuery } from 'mongoose'
 import User, { UserDocument } from '../models/User'
 import { destroyCloudinary, uploadToCloudinary } from '../utils/cloudinary'
 import { FuncHandleService } from '../utils/functions/funcService'
-import {
-  createDoc,
-  getDoc,
-  getAllDocs,
-  deleteDoc,
-  updateDoc,
-  docExist
-} from './db.service'
+import { createDoc, getDoc, getAllDocs, deleteDoc, updateDoc, docExist } from './db.service'
 
 export const createUser = (body: Partial<UserDocument>) =>
   createDoc('Error create user', User, body)
@@ -24,16 +12,7 @@ export const getUserExist = (
   filter?: FilterQuery<UserDocument>,
   projection?: ProjectionType<UserDocument> | null,
   options?: QueryOptions<UserDocument> | null
-) =>
-  docExist(
-    'Error get user exist',
-    User,
-    'User',
-    exist,
-    filter,
-    projection,
-    options
-  )
+) => docExist('Error get user exist', User, 'User', exist, filter, projection, options)
 
 export const getUser = (
   filter?: FilterQuery<UserDocument>,
@@ -57,13 +36,6 @@ export const updateUser = (
   update?: UpdateQuery<UserDocument>,
   options?: QueryOptions<UserDocument> | null
 ) => updateDoc('Error update user', User, filter, update, options)
-
-export const uploadAvatar = (file: Express.Multer.File, folder: string) =>
-  FuncHandleService('Error upload avatar', async () => {
-    const encoded = 'data:image/png;base64,' + file.buffer.toString('base64')
-    const result = await uploadToCloudinary(encoded, folder)
-    return result
-  })
 
 export const deleteAvatar = (publicId: any) =>
   FuncHandleService('Error delete avatar', async () => {

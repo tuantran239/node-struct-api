@@ -1,13 +1,14 @@
 import { Request, Response } from 'express'
-import { cloudinaryConf } from '@config'
-import { deleteAvatar, getUserExist, updateUser, uploadAvatar } from '../services/user.service'
+import { deleteAvatar, getUserExist, updateUser } from '../services/user.service'
 import {
   BadRequestResponse,
   CommonErrorResponse,
-  generateError,
-  InternalServerErrorResponse
+  InternalServerErrorResponse,
+  generateError
 } from '../error/http-error'
-import { HttpResponse } from '../utils'
+import { generateAvatarUrl, HttpResponse } from '../utils'
+import { uploadFile } from '@api/services/upload.service'
+import { cloudinaryCons } from '@api/constants'
 
 export const uploadAvatarHandler = async (req: Request, res: Response) => {
   const file = req.file
@@ -18,14 +19,18 @@ export const uploadAvatarHandler = async (req: Request, res: Response) => {
     return InternalServerErrorResponse(res, errorDel.error)
   }
 
-  const { error, data: result } = await uploadAvatar(file!!, cloudinaryConf.folder('avatar', user?.id))
+  const { error, data: result } = await uploadFile(
+    cloudinaryCons.folder('avatar', user?._id),
+    file,
+    { width: 320, height: 320 }
+  )
   if (error) {
     return CommonErrorResponse(res, error)
   }
 
   await updateUser(
-    { _id: user?.id },
-    { avatar: { public_id: result?.public_id, url: result?.url } }
+    { _id: user?._id },
+    { avatar: result || { public_id: null, url: generateAvatarUrl(user?.name) } }
   )
 
   return HttpResponse(res, 200, { success: true })

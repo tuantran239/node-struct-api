@@ -18,6 +18,7 @@ services:
       - .docker/data/redis:/data
     ports:
       - '6379:6379'
+    restart: always
   rabbitmq:
     image: rabbitmq:3-management-alpine
     restart: always
@@ -35,3 +36,4 @@ services:
       - ./:/usr/app
       - /usr/app/node_modules
     container_name: node-ts-struct
+    restart: unless-stopped

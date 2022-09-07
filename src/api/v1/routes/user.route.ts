@@ -4,8 +4,7 @@ import {
   updatePasswordHandler,
   uploadAvatarHandler
 } from '../controllers/user.controller'
-import { autheticate } from '../middlewares/authenticate'
-import { uploadSingeFile, validate } from '../middlewares'
+import { authenticate, multerSingleFile, validate } from '../middlewares'
 import {
   updateInfoSchema,
   updatePasswordSchema
@@ -13,22 +12,17 @@ import {
 
 const router = Router()
 
-router.post(
-  '/upload-avatar',
-  autheticate,
-  uploadSingeFile('avatar'),
-  uploadAvatarHandler
-)
+router.post('/upload-avatar', authenticate, multerSingleFile('avatar'), uploadAvatarHandler)
 
 router.patch('/update-info',
-  autheticate,
+  authenticate,
   updateInfoSchema,
   validate,
   updateInfoHandler)
 
 router.patch(
   '/update-password',
-  autheticate,
+  authenticate,
   updatePasswordSchema,
   validate,
   updatePasswordHandler

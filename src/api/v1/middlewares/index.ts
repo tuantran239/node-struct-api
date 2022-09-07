@@ -1,8 +1,8 @@
 export { deserializeUser } from './deserializeUser'
 
-export { autheticate } from './authenticate'
+export { authenticate } from './authenticate'
 
-export { uploadSingeFile } from './multer'
+export { multerMultiFile, multerSingleFile } from './multer'
 
 export { apiLimiter } from './rate-limt'
 

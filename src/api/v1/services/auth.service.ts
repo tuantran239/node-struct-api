@@ -3,17 +3,17 @@ import User from '../models/User'
 import { throwValidationError } from '../error/mongodb-error'
 import { FuncHandleService } from '../utils/functions'
 import { sendMail } from '../utils/nodemailer'
-import { mailConf } from '@config'
+import { mailCons } from '@api/constants'
 
 export const sendLinkVerify = async (email: string, method: string, token: string, link: string) =>
   FuncHandleService('Error send link verify', async () => {
     const href = `${link}/${token}`
     let title = 'verify Email'
     switch (method) {
-      case mailConf.method.register:
+      case mailCons.method.register:
         title = 'Active Account'
         break
-      case mailConf.method.resetPassword:
+      case mailCons.method.resetPassword:
         title = 'Reset Password'
         break
     }
@@ -34,6 +34,7 @@ export const authEmailPassword = (email: string, password: string) =>
     if (!isMatch) {
       throwValidationError('password', 'password not match', true)
     }
+    console.log(user?.active)
     if (!user?.active) {
       throwValidationError('email', 'user not active', true)
     }

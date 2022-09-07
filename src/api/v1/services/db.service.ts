@@ -33,6 +33,16 @@ export const docExist = <T>(
     return data
   })
 
+export const getNumberOfDocs = <T>(
+  log: string,
+  model: Model<T>,
+  filter: FilterQuery<T>
+) =>
+  FuncHandleService(log, async () => {
+    const data = await model.find(filter, '_id').count()
+    return data
+  })
+
 export const getDoc = <T>(
   log: string,
   model: Model<T>,
@@ -48,12 +58,12 @@ export const getDoc = <T>(
 export const getAllDocs = <T>(
   log: string,
   model: Model<T>,
-  filter?: FilterQuery<T>,
+  filter: FilterQuery<T>,
   projection?: ProjectionType<T> | null,
   options?: QueryOptions<T> | null
 ) =>
   FuncHandleService(log, async () => {
-    const data = await model.findOne(filter, projection, options)
+    const data = await model.find(filter, projection, options)
     return data
   })
 
