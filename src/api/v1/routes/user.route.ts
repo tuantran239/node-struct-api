@@ -3,12 +3,12 @@ import {
   updateInfoHandler,
   updatePasswordHandler,
   uploadAvatarHandler
-} from '../controllers/user.controller'
-import { authenticate, multerSingleFile, validate } from '../middlewares'
+} from '@api-v1/controllers/user.controller'
+import { authenticate, multerSingleFile, validate } from '@api-v1/middlewares'
 import {
   updateInfoSchema,
   updatePasswordSchema
-} from '../validator-schema/user.schema'
+} from '@api-v1/validator-schema/user.schema'
 
 const router = Router()
 

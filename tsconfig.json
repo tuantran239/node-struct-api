@@ -11,7 +11,7 @@
       "@config": [
         "./config/index.ts"
       ],
-      "@api/*": [
+      "@api-v1/*": [
         "./api/v1/*"
       ],
     },

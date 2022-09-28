@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
-import { ErrorResponse } from '../types'
+import { ErrorResponse } from '@api-v1/types'
 import rateLimit from 'express-rate-limit'
-import { CommonErrorResponse, generateError } from '../error/http-error'
+import { CommonErrorResponse, generateError } from '@api-v1/error/http-error'
 
 export const apiLimiter = rateLimit({
   windowMs: 60 * 1000,

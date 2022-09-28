@@ -1,4 +1,4 @@
-import { logger } from '@api/utils'
+import { logger } from '@api-v1/utils'
 import { NextFunction, Request, Response } from 'express'
 import multer from 'multer'
 

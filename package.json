@@ -17,7 +17,7 @@
   },
   "_moduleAliases": {
     "@config": "./src/config/index.ts",
-    "@api": "./src/api/v1"
+    "@api-v1": "./src/api/v1"
   },
   "keywords": [],
   "author": "",

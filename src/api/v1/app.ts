@@ -10,6 +10,7 @@ import passport from 'passport'
 import consumer from './worker/consumer'
 import { deserializeUser, setSwagger } from './middlewares'
 import { cloudinaryConf, serverConf } from '@config'
+import { connect } from '@api-v1/utils/redis'
 
 import './utils/passport'
 
@@ -18,6 +19,8 @@ cloudinary.v2.config({
   api_key: cloudinaryConf.cloudinaryApiKey,
   api_secret: cloudinaryConf.cloudinaryApiSecret
 })
+
+connect()
 
 const app = express()
 app.use(

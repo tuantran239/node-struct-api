@@ -1,10 +1,10 @@
 import { Request, Response, NextFunction } from 'express'
 import amqp from 'amqplib'
-import logger from '@api/utils/logger'
+import logger from '@api-v1/utils/logger'
 import { rabbitmqConf } from '@config'
-import { sendLinkVerify } from '@api/services/auth.service'
-import { uploadFile, uploadMultiFile } from '@api/services/upload.service'
-import { updateProduct } from '@api/services/product.service'
+import { sendLinkVerify } from '@api-v1/services/auth.service'
+import { uploadFile, uploadMultiFile } from '@api-v1/services/upload.service'
+import { updateProduct } from '@api-v1/services/product.service'
 
 const consumer = async (req: Request, res: Response, next: NextFunction) => {
   try {

@@ -1,9 +1,5 @@
 import { Response } from 'express'
-import {
-  Error,
-  ErrorResponse,
-  HttpResonseError
-} from '../types'
+import { Error, ErrorResponse, HttpResonseError } from '@api-v1/types'
 
 import { HttpResponse } from '../utils'
 
@@ -44,4 +40,8 @@ export const InternalServerErrorResponse: HttpResonseError = (res, error) => {
 
 export const UnauthorizedResponse: HttpResonseError = (res, error) => {
   return errorRes(res, 'Unauthorized', 401, error)
+}
+
+export const ForbiddenResponse: HttpResonseError = (res, error) => {
+  return errorRes(res, 'Forbidden', 403, error)
 }

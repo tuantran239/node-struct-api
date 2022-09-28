@@ -9,14 +9,14 @@ import {
   resetPasswordPage,
   sendMailHandler,
   verifyHandler
-} from '../controllers/auth.controller'
-import { authenticate, apiLimiter, validate } from '../middlewares'
+} from '@api-v1/controllers/auth.controller'
+import { authenticate, apiLimiter, validate } from '@api-v1/middlewares'
 import {
   createUserSchema,
   forgotPasswordSchema,
   loginSchema,
   resetPasswordSchema
-} from '../validator-schema/user.schema'
+} from '@api-v1/validator-schema/user.schema'
 
 const router = Router()
 

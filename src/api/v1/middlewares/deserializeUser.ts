@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express'
-import { getSessionExist } from '../services/session.service'
-import { verifyJWT, signJWT } from '../utils/jwt'
-import { cookieCons, jwtCons } from '@api/constants'
+import { getSessionExist } from '@api-v1/services/session.service'
+import { verifyJWT, signJWT } from '@api-v1/utils/jwt'
+import { cookieCons, jwtCons } from '@api-v1/constants'
 
 export const deserializeUser = async (req: Request, res: Response, next: NextFunction) => {
   const accessToken = req.cookies.access

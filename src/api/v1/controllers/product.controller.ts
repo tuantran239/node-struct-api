@@ -1,14 +1,14 @@
-import { cloudinaryCons, productCons } from '@api/constants'
-import { CommonErrorResponse } from '@api/error/http-error'
+import { cloudinaryCons, productCons } from '@api-v1/constants'
+import { CommonErrorResponse } from '@api-v1/error/http-error'
 import {
   createProduct,
   getAllProduct,
   getNumberOfProduct,
   getProduct
-} from '@api/services/product.service'
-import { HttpResponse } from '@api/utils'
-import { FilterProducts } from '@api/utils/filter'
-import { uploadMultiFileWorker } from '@api/worker/upload-worker'
+} from '@api-v1/services/product.service'
+import { HttpResponse } from '@api-v1/utils'
+import { FilterProducts } from '@api-v1/utils/filter'
+import { uploadMultiFileWorker } from '@api-v1/worker/upload-worker'
 import { Request, Response } from 'express'
 
 export const createProductHandler = async (req: Request, res: Response) => {

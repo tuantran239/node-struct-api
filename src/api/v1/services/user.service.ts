@@ -1,7 +1,7 @@
 import { FilterQuery, ProjectionType, QueryOptions, UpdateQuery } from 'mongoose'
-import User, { UserDocument } from '../models/User'
-import { destroyCloudinary, uploadToCloudinary } from '../utils/cloudinary'
-import { FuncHandleService } from '../utils/functions/funcService'
+import User, { UserDocument } from '@api-v1/models/User'
+import { destroyCloudinary, uploadToCloudinary } from '@api-v1/utils/cloudinary'
+import { FuncHandleService } from '@api-v1/utils/functions/funcService'
 import { createDoc, getDoc, getAllDocs, deleteDoc, updateDoc, docExist } from './db.service'
 
 export const createUser = (body: Partial<UserDocument>) =>

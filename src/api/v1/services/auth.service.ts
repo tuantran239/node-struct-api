@@ -1,9 +1,9 @@
-import { AuthType } from '../types'
-import User from '../models/User'
-import { throwValidationError } from '../error/mongodb-error'
-import { FuncHandleService } from '../utils/functions'
-import { sendMail } from '../utils/nodemailer'
-import { mailCons } from '@api/constants'
+import { AuthType } from '@api-v1/types'
+import User from '@api-v1/models/User'
+import { throwValidationError } from '@api-v1/error/mongodb-error'
+import { FuncHandleService } from '@api-v1/utils/functions'
+import { sendMail } from '@api-v1/utils/nodemailer'
+import { mailCons } from '@api-v1/constants'
 
 export const sendLinkVerify = async (email: string, method: string, token: string, link: string) =>
   FuncHandleService('Error send link verify', async () => {

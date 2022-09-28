@@ -1,4 +1,4 @@
-import { Error, ErrorResponse } from '../types'
+import { Error, ErrorResponse } from '@api-v1/types'
 import { Error as ErrorMongoose } from 'mongoose'
 
 export const throwValidationError = (

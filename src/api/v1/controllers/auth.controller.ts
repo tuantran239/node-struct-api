@@ -1,19 +1,19 @@
 import { Request, Response } from 'express'
 import { serverConf } from '@config'
-import { authEmailPassword } from '../services/auth.service'
-import { createSession, deleteSession } from '../services/session.service'
-import { createUser, getUserExist, updateUser } from '../services/user.service'
-import { AuthType } from '../types/user.type'
+import { authEmailPassword } from '@api-v1/services/auth.service'
+import { createSession, deleteSession } from '@api-v1/services/session.service'
+import { createUser, getUserExist, updateUser } from '@api-v1/services/user.service'
+import { AuthType } from '@api-v1/types/user.type'
 import {
   BadRequestResponse,
   CommonErrorResponse,
   generateError,
   InternalServerErrorResponse,
   NotFoundResponse
-} from '../error/http-error'
-import { HttpResponse, signJWT, verifyJWT, generateAvatarUrl } from '../utils'
-import { sendMailWorker } from '../worker/email-worker'
-import { cookieCons, jwtCons, mailCons } from '@api/constants'
+} from '@api-v1/error/http-error'
+import { HttpResponse, signJWT, verifyJWT, generateAvatarUrl } from '@api-v1/utils'
+import { sendMailWorker } from '@api-v1/worker/email-worker'
+import { cookieCons, jwtCons, mailCons } from '@api-v1/constants'
 
 export const signupHandler = async (req: Request, res: Response) => {
   const { error: errorExist } = await getUserExist(

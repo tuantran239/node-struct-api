@@ -5,8 +5,8 @@ import {
   QueryOptions,
   UpdateQuery
 } from 'mongoose'
-import { throwValidationError } from '../error/mongodb-error'
-import { FuncHandleService } from '../utils/functions/funcService'
+import { throwValidationError } from '@api-v1/error/mongodb-error'
+import { FuncHandleService } from '@api-v1/utils/functions/funcService'
 
 export const createDoc = <T>(log: string, model: Model<T>, body: Partial<T>) =>
   FuncHandleService(log, async () => {

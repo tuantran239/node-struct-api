@@ -1,4 +1,4 @@
-import { productCons } from '@api/constants'
+import { productCons } from '@api-v1/constants'
 
 export const FilterProducts = ({
   page = 1,

@@ -4,7 +4,7 @@ import authRoutes from './auth.route'
 import authSocialRoutes from './authsocial.route'
 import userRoutes from './user.route'
 import productRoutes from './product.route'
-import { serverCons } from '@api/constants'
+import { serverCons } from '@api-v1/constants'
 
 const routes = Router()
 

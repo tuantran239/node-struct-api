@@ -1,8 +1,8 @@
+import app from '@api-v1/app'
 import { Request, Response, NextFunction } from 'express'
-import app from '../app'
-import { mapPathFileYAML, mapPathFolderYAML } from '../utils/map'
+import { mapPathFileYAML, mapPathFolderYAML } from '@api-v1/utils/map'
 import swaggerUi from 'swagger-ui-express'
-import { serverCons } from '@api/constants'
+import { serverCons } from '@api-v1/constants'
 
 const mergeYaml = require('merge-yaml')
 

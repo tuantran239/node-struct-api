@@ -1,6 +1,6 @@
 import amqp from 'amqplib'
 import { rabbitmqConf } from '@config'
-import logger from '../utils/logger'
+import logger from '@api-v1/utils/logger'
 
 interface UploadWorker {
   productId: any

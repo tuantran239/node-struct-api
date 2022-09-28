@@ -1,14 +1,14 @@
 import { Request, Response } from 'express'
-import { deleteAvatar, getUserExist, updateUser } from '../services/user.service'
+import { deleteAvatar, getUserExist, updateUser } from '@api-v1/services/user.service'
 import {
   BadRequestResponse,
   CommonErrorResponse,
   InternalServerErrorResponse,
   generateError
-} from '../error/http-error'
+} from '@api-v1/error/http-error'
 import { generateAvatarUrl, HttpResponse } from '../utils'
-import { uploadFile } from '@api/services/upload.service'
-import { cloudinaryCons } from '@api/constants'
+import { uploadFile } from '@api-v1/services/upload.service'
+import { cloudinaryCons } from '@api-v1/constants'
 
 export const uploadAvatarHandler = async (req: Request, res: Response) => {
   const file = req.file

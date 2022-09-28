@@ -1,6 +1,6 @@
-import { throwValidationError } from '@api/error/mongodb-error'
-import { uploadToCloudinary } from '@api/utils'
-import { FuncHandleService } from '@api/utils/functions'
+import { throwValidationError } from '@api-v1/error/mongodb-error'
+import { uploadToCloudinary } from '@api-v1/utils'
+import { FuncHandleService } from '@api-v1/utils/functions'
 import sharp from 'sharp'
 
 type Resize = {

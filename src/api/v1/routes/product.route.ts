@@ -1,7 +1,7 @@
-import { createProductHandler, getProductHandler, getProductsHandler } from '@api/controllers/product.controller'
+import { createProductHandler, getProductHandler, getProductsHandler } from '@api-v1/controllers/product.controller'
 import { Router } from 'express'
-import { authenticate, multerMultiFile, multerSingleFile, validate } from '@api/middlewares'
-import { createProductSchema } from '@api/validator-schema/product.schema'
+import { multerMultiFile } from '@api-v1/middlewares'
+import { createProductSchema } from '@api-v1/validator-schema/product.schema'
 
 const router = Router()
 

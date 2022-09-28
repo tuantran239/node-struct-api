@@ -4,9 +4,9 @@ import {
   QueryOptions,
   UpdateQuery
 } from 'mongoose'
-import Product, { ProductDocument } from '../models/Product'
-import { destroyCloudinary } from '../utils/cloudinary'
-import { FuncHandleService } from '../utils/functions/funcService'
+import Product, { ProductDocument } from '@api-v1/models/Product'
+import { destroyCloudinary } from '@api-v1/utils/cloudinary'
+import { FuncHandleService } from '@api-v1/utils/functions/funcService'
 import {
   createDoc,
   getDoc,

@@ -1,4 +1,4 @@
-import { AuthType, Role } from '../types'
+import { AuthType, Role } from '@api-v1/types'
 import { model, Schema, Document } from 'mongoose'
 import { hash, compare } from 'bcrypt'
 

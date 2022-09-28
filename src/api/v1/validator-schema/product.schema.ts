@@ -1,5 +1,5 @@
 import { checkSchema } from 'express-validator'
-import { required, valid } from '@api/error/validator-error-message'
+import { required, valid } from '@api-v1/error/validator-error-message'
 
 export const createProductSchema = checkSchema({
   name: {

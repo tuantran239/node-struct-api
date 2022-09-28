@@ -4,7 +4,7 @@ import {
   QueryOptions,
   UpdateQuery
 } from 'mongoose'
-import Session, { SessionDocument } from '../models/Session'
+import Session, { SessionDocument } from '@api-v1/models/Session'
 import {
   createDoc,
   getDoc,

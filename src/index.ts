@@ -1,7 +1,7 @@
 import 'module-alias/register'
 
-import app from '@api/app'
-import { logger } from '@api/utils'
+import app from '@api-v1/app'
+import { logger } from '@api-v1/utils'
 
 import './mongodb'
 
