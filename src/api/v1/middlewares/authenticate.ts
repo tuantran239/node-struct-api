@@ -5,7 +5,6 @@ import {
   InternalServerErrorResponse,
   UnauthorizedResponse
 } from '@api-v1/error/http-error'
-import { hGetAuth, hSetAuth } from '@api-v1/services/redis.service'
 
 export const authenticate = async (
   req: Request,
@@ -15,12 +14,6 @@ export const authenticate = async (
   const userId = res.locals.user
   if (!userId) {
     return UnauthorizedResponse(res, generateError('unauthorized', 'user'))
-  }
-
-  const userJson = await hGetAuth(userId)
-  if (userJson) {
-    res.locals.user = userJson
-    return next()
   }
 
   const { data: user, error } = await getUserExist(
@@ -38,7 +31,6 @@ export const authenticate = async (
       generateError('account not active', 'user')
     )
   }
-  await hSetAuth(userId, user)
   res.locals.user = user
   next()
 }

@@ -2,7 +2,11 @@ import { Request, Response } from 'express'
 import { serverConf } from '@config'
 import { authEmailPassword } from '@api-v1/services/auth.service'
 import { createSession, deleteSession } from '@api-v1/services/session.service'
-import { createUser, getUserExist, updateUser } from '@api-v1/services/user.service'
+import {
+  createUser,
+  getUserExist,
+  updateUser
+} from '@api-v1/services/user.service'
 import { AuthType } from '@api-v1/types/user.type'
 import {
   BadRequestResponse,
@@ -11,7 +15,12 @@ import {
   InternalServerErrorResponse,
   NotFoundResponse
 } from '@api-v1/error/http-error'
-import { HttpResponse, signJWT, verifyJWT, generateAvatarUrl } from '@api-v1/utils'
+import {
+  HttpResponse,
+  signJWT,
+  verifyJWT,
+  generateAvatarUrl
+} from '@api-v1/utils'
 import { sendMailWorker } from '@api-v1/worker/email-worker'
 import { cookieCons, jwtCons, mailCons } from '@api-v1/constants'
 
@@ -43,13 +52,15 @@ export const signupHandler = async (req: Request, res: Response) => {
       expiresIn: '1h'
     }
   )
-  await sendMailWorker({
-    email: user?.email as string,
-    method: mailCons.method.register,
-    token,
-    link: mailCons.link.register
-  })
-  await updateUser({ email: user?.email as string }, { token })
+  await Promise.all([
+    sendMailWorker({
+      email: user?.email as string,
+      method: mailCons.method.register,
+      token,
+      link: mailCons.link.register
+    }),
+    updateUser({ email: user?.email as string }, { token })
+  ])
 
   return HttpResponse(res, 201, {
     success: true,
@@ -87,13 +98,15 @@ export const sendMailHandler = async (req: Request, res: Response) => {
       expiresIn: '1h'
     }
   )
-  await sendMailWorker({
-    email: email as string,
-    method,
-    token: newToken,
-    link: link as string
-  })
-  await updateUser({ email }, { token: newToken })
+  await Promise.all([
+    sendMailWorker({
+      email: email as string,
+      method,
+      token: newToken,
+      link: link as string
+    }),
+    updateUser({ email }, { token: newToken })
+  ])
 
   return HttpResponse(res, 200, { success: true })
 }
@@ -214,13 +227,15 @@ export const forgotPasswordHandler = async (req: Request, res: Response) => {
       expiresIn: '1h'
     }
   )
-  await sendMailWorker({
-    email: user?.email as string,
-    method: mailCons.method.resetPassword,
-    token,
-    link: mailCons.link.resetPassword
-  })
-  await updateUser({ email: user?.email as string }, { token })
+  await Promise.all([
+    sendMailWorker({
+      email: user?.email as string,
+      method: mailCons.method.resetPassword,
+      token,
+      link: mailCons.link.resetPassword
+    }),
+    updateUser({ email: user?.email as string }, { token })
+  ])
 
   return HttpResponse(res, 200, {
     success: true,
