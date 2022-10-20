@@ -16,6 +16,10 @@ export const FuncHandleService = async <T>(
     return { data }
   } catch (err) {
     const error = handleValidationError(err)
+    error.error.forEach((e) => {
+      const eTemplate = `${e.field}: ${e.message}`
+      logger.error({ error: eTemplate }, log)
+    })
     logger.error({ error }, log)
     return { error }
   }
